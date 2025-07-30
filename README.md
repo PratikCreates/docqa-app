@@ -1,0 +1,236 @@
+# 🤖 Smart Document Q&A System
+
+A powerful document analysis application that uses AI to extract text from various document formats and answer questions about their content. Built with **Nebius AI Studio**, **Tesseract OCR**, **FastAPI**, and **React**.
+
+![Document Q&A Demo](https://img.shields.io/badge/Status-Active-brightgreen)
+![Python](https://img.shields.io/badge/Python-3.11+-blue)
+![React](https://img.shields.io/badge/React-18+-61DAFB)
+![FastAPI](https://img.shields.io/badge/FastAPI-Latest-009688)
+
+## ✨ Features
+
+### 📄 Document Processing
+- **Multi-format support**: Images (JPG, PNG, BMP, TIFF, GIF), PDFs, DOCX, TXT
+- **Advanced OCR**: Powered by Tesseract with custom preprocessing
+- **Smart text extraction**: Handles scanned documents, tables, and structured content
+- **PDF intelligence**: Automatic fallback to OCR for scanned PDFs
+
+### 🧠 AI-Powered Analysis
+- **Natural language Q&A**: Ask questions about your documents in plain English
+- **Context-aware responses**: Understands document structure and content
+- **Custom system prompts**: Tailor AI behavior for specific use cases
+- **Powered by Nebius AI Studio**: Using Meta-Llama-3.1-70B-Instruct model
+
+### 🎨 Modern Interface
+- **Drag & drop upload**: Intuitive file handling
+- **Real-time processing**: Live feedback during document analysis
+- **Responsive design**: Works on desktop and mobile
+- **Clean UI**: Modern, professional interface
+
+### 🔧 Developer Features
+- **RESTful API**: Easy integration with other systems
+- **Debug endpoints**: Inspect raw OCR output
+- **Extensible architecture**: Easy to add new features
+- **Type safety**: Full TypeScript support in frontend
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.11+
+- Node.js 16+
+- Tesseract OCR installed
+- Nebius AI Studio API key
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd docqa-app
+   ```
+
+2. **Backend Setup**
+   ```bash
+   cd backend
+   
+   # Create virtual environment
+   python -m venv venv
+   
+   # Activate virtual environment
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   
+   # Install dependencies
+   pip install -r requirements.txt
+   ```
+
+3. **Environment Configuration**
+   ```bash
+   # Create .env file in backend directory
+   echo "NEBIUS_API_KEY=your_nebius_api_key_here" > .env
+   ```
+
+4. **Frontend Setup**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+### Running the Application
+
+1. **Start the Backend Server**
+   ```bash
+   cd backend
+   venv\Scripts\activate  # Windows
+   python -m uvicorn main:app --reload
+   ```
+   Server will run on `http://localhost:8000`
+
+2. **Start the Frontend**
+   ```bash
+   cd frontend
+   npm start
+   ```
+   Application will open on `http://localhost:3000`
+
+## 📋 Supported File Formats
+
+| Category | Formats | Notes |
+|----------|---------|-------|
+| **Images** | JPG, JPEG, PNG, BMP, TIFF, GIF | OCR processing with advanced preprocessing |
+| **Documents** | PDF, DOCX, TXT | Smart text extraction with OCR fallback |
+| **Scanned PDFs** | PDF | Automatic OCR when direct text extraction fails |
+
+## 🔑 API Endpoints
+
+### Main Endpoints
+- `POST /ask` - Upload document and ask questions
+- `POST /debug-extract` - Debug text extraction
+- `GET /supported-formats` - Get supported file formats
+
+### Example Usage
+```python
+import requests
+
+# Upload and ask question
+files = {'file': open('document.pdf', 'rb')}
+data = {
+    'question': 'What is the course code?',
+    'system_prompt': 'Be precise and extract exact information.'
+}
+
+response = requests.post('http://localhost:8000/ask', files=files, data=data)
+result = response.json()
+print(result['answer'])
+```
+
+## 🛠️ Configuration
+
+### Tesseract OCR Setup
+**Windows:**
+1. Download from: https://github.com/UB-Mannheim/tesseract/wiki
+2. Install to default location: `C:\Program Files\Tesseract-OCR\`
+3. Path is automatically configured in the application
+
+**macOS:**
+```bash
+brew install tesseract
+```
+
+**Linux:**
+```bash
+sudo apt-get install tesseract-ocr
+```
+
+### Nebius AI Studio API Key
+1. Sign up at [Nebius AI Studio](https://studio.nebius.com/)
+2. Generate an API key
+3. Add to your `.env` file:
+   ```
+   NEBIUS_API_KEY=your_api_key_here
+   ```
+
+## 🏗️ Architecture
+
+```
+docqa-app/
+├── backend/                 # FastAPI backend
+│   ├── main.py             # Main application file
+│   ├── requirements.txt    # Python dependencies
+│   ├── .env               # Environment variables (create this)
+│   └── venv/              # Virtual environment
+├── frontend/               # React frontend
+│   ├── src/
+│   │   ├── App.tsx        # Main React component
+│   │   └── App.css        # Styling
+│   ├── package.json       # Node dependencies
+│   └── build/             # Production build
+└── README.md              # This file
+```
+
+## 🔧 Development
+
+### Adding New Features
+1. Backend changes go in `backend/main.py`
+2. Frontend changes go in `frontend/src/App.tsx`
+3. Always test both components after changes
+
+### OCR Improvements
+The OCR system uses multiple preprocessing techniques:
+- CLAHE contrast enhancement
+- Bilateral filtering
+- Adaptive thresholding
+- Morphological operations
+- Multiple PSM modes for different document types
+
+### AI Model Configuration
+Currently using Meta-Llama-3.1-70B-Instruct via Nebius AI Studio:
+- Temperature: 0.6 (balanced creativity/accuracy)
+- Max tokens: 1024
+- Top-p: 0.9
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**"ModuleNotFoundError: No module named 'PyPDF2'"**
+- Ensure virtual environment is activated
+- Run `pip install -r requirements.txt`
+
+**"Tesseract not found"**
+- Install Tesseract OCR
+- Verify installation path in `main.py`
+
+**"API key not found"**
+- Create `.env` file in backend directory
+- Add your Nebius API key
+
+**Empty OCR results**
+- Check if Tesseract is properly installed
+- Verify image quality and format
+- Try different document types
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 🙏 Acknowledgments
+
+- **Nebius AI Studio** for powerful language model API
+- **Tesseract OCR** for text extraction capabilities
+- **FastAPI** for the robust backend framework
+- **React** for the modern frontend interface
+
+---
+
+**Made with ❤️ using Nebius AI Studio**
