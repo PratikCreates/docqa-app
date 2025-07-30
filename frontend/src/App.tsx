@@ -99,6 +99,102 @@ function App() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  const exportResults = (format: 'txt' | 'json') => {
+    if (!answer || !file) return;
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `${file.name.split('.')[0]}_analysis_${timestamp}`;
+
+    let content: string;
+    let mimeType: string;
+    let extension: string;
+
+    if (format === 'json') {
+      const data = {
+        document: {
+          filename: file.name,
+          size: file.size,
+          type: file.type,
+          processed_at: new Date().toISOString()
+        },
+        question: question,
+        answer: answer,
+        extracted_text: extractedText,
+        system_prompt: systemPrompt || 'Default system prompt'
+      };
+      content = JSON.stringify(data, null, 2);
+      mimeType = 'application/json';
+      extension = 'json';
+    } else {
+      content = `Document Analysis Report
+Generated: ${new Date().toLocaleString()}
+Document: ${file.name}
+
+Question: ${question}
+
+Answer:
+${answer}
+
+${extractedText ? `\nExtracted Text:\n${extractedText}` : ''}
+`;
+      mimeType = 'text/plain';
+      extension = 'txt';
+    }
+
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${filename}.${extension}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const getQuestionSuggestions = (filename: string) => {
+    const extension = filename.toLowerCase().split('.').pop();
+    const name = filename.toLowerCase();
+
+    // Smart suggestions based on file type and name
+    if (extension === 'pdf' || name.includes('syllabus') || name.includes('course')) {
+      return [
+        "What is the course code and title?",
+        "What are the learning objectives?",
+        "What is the grading scheme?",
+        "What are the prerequisites?"
+      ];
+    } else if (name.includes('invoice') || name.includes('receipt') || name.includes('bill')) {
+      return [
+        "What is the total amount?",
+        "What items were purchased?",
+        "What is the date of purchase?",
+        "Who is the vendor?"
+      ];
+    } else if (name.includes('contract') || name.includes('agreement')) {
+      return [
+        "What are the key terms?",
+        "What is the duration?",
+        "Who are the parties involved?",
+        "What are the payment terms?"
+      ];
+    } else if (name.includes('resume') || name.includes('cv')) {
+      return [
+        "What is the person's experience?",
+        "What are their key skills?",
+        "What is their education background?",
+        "What are their contact details?"
+      ];
+    } else {
+      return [
+        "What is this document about?",
+        "Summarize the key points",
+        "What are the important dates?",
+        "Extract all numbers and amounts"
+      ];
+    }
+  };
+
   return (
     <div className="app-container">
       <div className="header">
@@ -169,6 +265,24 @@ function App() {
             onChange={(e) => setQuestion(e.target.value)}
             rows={3}
           />
+          
+          {/* Question Suggestions */}
+          {file && (
+            <div className="question-suggestions">
+              <p>💡 Suggested questions:</p>
+              <div className="suggestion-buttons">
+                {getQuestionSuggestions(file.name).map((suggestion, index) => (
+                  <button
+                    key={index}
+                    className="suggestion-button"
+                    onClick={() => setQuestion(suggestion)}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* System Prompt Section */}
@@ -225,20 +339,60 @@ function App() {
                   <p key={index}>{line}</p>
                 ))}
               </div>
+              
+              {/* Export Options */}
+              <div className="export-options">
+                <button 
+                  className="export-button"
+                  onClick={() => exportResults('txt')}
+                >
+                  📄 Export as TXT
+                </button>
+                <button 
+                  className="export-button"
+                  onClick={() => exportResults('json')}
+                >
+                  📋 Export as JSON
+                </button>
+              </div>
             </div>
 
-            {extractedText && (
-              <div className="extracted-text-section">
-                <button 
-                  className="toggle-button"
-                  onClick={() => setShowExtractedText(!showExtractedText)}
-                >
-                  📄 View Extracted Text {showExtractedText ? '▼' : '▶'}
-                </button>
+            {/* Document Preview & Split View */}
+            {file && (
+              <div className="document-preview-section">
+                <div className="preview-header">
+                  <button 
+                    className="toggle-button"
+                    onClick={() => setShowExtractedText(!showExtractedText)}
+                  >
+                    📄 Document Analysis {showExtractedText ? '▼' : '▶'}
+                  </button>
+                </div>
                 
                 {showExtractedText && (
-                  <div className="extracted-text-content">
-                    <pre>{extractedText}</pre>
+                  <div className="split-view">
+                    <div className="original-document">
+                      <h4>📄 Original Document</h4>
+                      <div className="document-info">
+                        <p><strong>File:</strong> {file.name}</p>
+                        <p><strong>Size:</strong> {formatFileSize(file.size)}</p>
+                        <p><strong>Type:</strong> {file.type || 'Unknown'}</p>
+                      </div>
+                      {file.type.startsWith('image/') && (
+                        <img 
+                          src={URL.createObjectURL(file)} 
+                          alt="Document preview" 
+                          className="document-image-preview"
+                        />
+                      )}
+                    </div>
+                    
+                    <div className="extracted-content">
+                      <h4>🔍 Extracted Text</h4>
+                      <div className="extracted-text-content">
+                        <pre>{extractedText}</pre>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

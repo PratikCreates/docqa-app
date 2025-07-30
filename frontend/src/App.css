@@ -318,6 +318,134 @@ body {
   overflow-y: auto;
 }
 
+/* Question Suggestions */
+.question-suggestions {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.question-suggestions p {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.suggestion-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.suggestion-button {
+  background: white;
+  border: 2px solid #667eea;
+  color: #667eea;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.suggestion-button:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* Export Options */
+.export-options {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.export-button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.export-button:hover {
+  background: #218838;
+}
+
+/* Document Preview */
+.document-preview-section {
+  margin-top: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.preview-header {
+  margin-bottom: 1rem;
+}
+
+.split-view {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.original-document,
+.extracted-content {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #e1e5e9;
+}
+
+.original-document h4,
+.extracted-content h4 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.document-info {
+  margin-bottom: 1rem;
+}
+
+.document-info p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.document-image-preview {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 6px;
+  border: 1px solid #e1e5e9;
+}
+
+.extracted-text-content {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.extracted-text-content pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #495057;
+  line-height: 1.4;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .app-container {
@@ -338,5 +466,18 @@ body {
   
   .upload-icon {
     font-size: 2rem;
+  }
+  
+  .split-view {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .suggestion-buttons {
+    flex-direction: column;
+  }
+  
+  .export-options {
+    flex-direction: column;
   }
 }
