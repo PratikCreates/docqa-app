@@ -233,4 +233,13 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Made with ❤️ using Nebius AI Studio**
+
+## 🌟 Star this repository if you found it helpful!
+
+[![GitHub stars](https://img.shields.io/github/stars/PratikCreates/docqa-app?style=social)](https://github.com/PratikCreates/docqa-app/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/PratikCreates/docqa-app?style=social)](https://github.com/PratikCreates/docqa-app/network/members)
+
+---
+
+**Repository**: https://github.com/PratikCreates/docqa-app  
+**Author**: [@PratikCreates](https://github.com/PratikCreates)

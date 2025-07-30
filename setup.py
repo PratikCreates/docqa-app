@@ -55,10 +55,10 @@ def setup_backend():
     # Determine activation script based on OS
     if os.name == 'nt':  # Windows
         activate_script = venv_dir / "Scripts" / "activate.bat"
-        pip_path = venv_dir / "Scripts" / "pip.exe"
+        pip_path = str(venv_dir / "Scripts" / "pip.exe")
     else:  # Unix/Linux/macOS
         activate_script = venv_dir / "bin" / "activate"
-        pip_path = venv_dir / "bin" / "pip"
+        pip_path = str(venv_dir / "bin" / "pip")
     
     # Install requirements
     if not run_command(f'"{pip_path}" install -r requirements.txt', cwd=backend_dir):
@@ -86,14 +86,30 @@ def setup_frontend():
 
 def check_tesseract():
     """Check if Tesseract OCR is installed"""
-    try:
-        result = subprocess.run(['tesseract', '--version'], capture_output=True, text=True)
-        print(f"✅ Tesseract OCR installed")
-        return True
-    except FileNotFoundError:
-        print("❌ Tesseract OCR is not installed")
-        print("   Please install from: https://github.com/UB-Mannheim/tesseract/wiki")
-        return False
+    # Check common installation paths
+    common_paths = [
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+        "tesseract"  # In PATH
+    ]
+    
+    for path in common_paths:
+        try:
+            if path == "tesseract":
+                result = subprocess.run(['tesseract', '--version'], capture_output=True, text=True)
+            else:
+                if os.path.exists(path):
+                    result = subprocess.run([path, '--version'], capture_output=True, text=True)
+                else:
+                    continue
+            print(f"✅ Tesseract OCR installed")
+            return True
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            continue
+    
+    print("❌ Tesseract OCR is not installed")
+    print("   Please install from: https://github.com/UB-Mannheim/tesseract/wiki")
+    return False
 
 def main():
     """Main setup function"""
