@@ -10,3 +10,5 @@ numpy
 PyPDF2
 python-docx
 PyMuPDF
+beautifulsoup4
+lxml

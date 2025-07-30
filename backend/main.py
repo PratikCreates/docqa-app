@@ -386,16 +386,199 @@ def extract_text_from_image(file_content):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error processing image: {str(e)}")
 
+def extract_text_from_code_file(file_content, file_extension):
+    """Extract text from code files with syntax awareness"""
+    try:
+        # Decode the file content
+        text = file_content.decode('utf-8')
+        
+        # Add file type context for better AI understanding
+        file_type_context = {
+            'py': 'Python',
+            'js': 'JavaScript', 
+            'ts': 'TypeScript',
+            'java': 'Java',
+            'cpp': 'C++',
+            'c': 'C',
+            'sh': 'Shell Script'
+        }
+        
+        context = file_type_context.get(file_extension, file_extension.upper())
+        
+        # Add context header for AI processing
+        processed_text = f"[{context} Code File]\n\n{text}"
+        
+        return processed_text
+        
+    except UnicodeDecodeError:
+        try:
+            text = file_content.decode('latin-1')
+            return f"[{file_extension.upper()} Code File]\n\n{text}"
+        except UnicodeDecodeError:
+            return f"[{file_extension.upper()} Code File - Binary Content]\n\nThis file contains binary data that cannot be displayed as text."
+
+def extract_text_from_html(file_content):
+    """Extract text from HTML files"""
+    try:
+        from bs4 import BeautifulSoup
+        
+        # Decode content
+        html_content = file_content.decode('utf-8')
+        
+        # Parse HTML
+        soup = BeautifulSoup(html_content, 'html.parser')
+        
+        # Extract title
+        title = soup.find('title')
+        title_text = title.get_text().strip() if title else "Untitled HTML Document"
+        
+        # Remove script and style elements
+        for script in soup(["script", "style"]):
+            script.decompose()
+        
+        # Get text content
+        text = soup.get_text()
+        
+        # Clean up whitespace
+        lines = (line.strip() for line in text.splitlines())
+        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+        text = ' '.join(chunk for chunk in chunks if chunk)
+        
+        return f"[HTML Document]\nTitle: {title_text}\n\n{text}"
+        
+    except Exception as e:
+        # Fallback to plain text extraction
+        try:
+            return f"[HTML Document]\n\n{file_content.decode('utf-8')}"
+        except:
+            return f"[HTML Document - Error]\n\nError processing HTML: {str(e)}"
+
+def extract_text_from_xml(file_content):
+    """Extract text from XML files"""
+    try:
+        import xml.etree.ElementTree as ET
+        
+        # Decode content
+        xml_content = file_content.decode('utf-8')
+        
+        # Parse XML
+        root = ET.fromstring(xml_content)
+        
+        # Extract all text content
+        def extract_xml_text(element, level=0):
+            text_parts = []
+            indent = "  " * level
+            
+            # Add element tag and attributes
+            if element.tag:
+                attrs = " ".join([f'{k}="{v}"' for k, v in element.attrib.items()])
+                tag_info = f"{indent}<{element.tag}" + (f" {attrs}" if attrs else "") + ">"
+                text_parts.append(tag_info)
+            
+            # Add element text
+            if element.text and element.text.strip():
+                text_parts.append(f"{indent}  {element.text.strip()}")
+            
+            # Process children
+            for child in element:
+                text_parts.extend(extract_xml_text(child, level + 1))
+            
+            return text_parts
+        
+        xml_text = "\n".join(extract_xml_text(root))
+        
+        return f"[XML Document]\nRoot Element: {root.tag}\n\n{xml_text}"
+        
+    except Exception as e:
+        # Fallback to plain text extraction
+        try:
+            return f"[XML Document]\n\n{file_content.decode('utf-8')}"
+        except:
+            return f"[XML Document - Error]\n\nError processing XML: {str(e)}"
+
+def extract_text_from_markdown(file_content):
+    """Extract text from Markdown files"""
+    try:
+        # Decode content
+        md_content = file_content.decode('utf-8')
+        
+        # Add markdown context
+        return f"[Markdown Document]\n\n{md_content}"
+        
+    except UnicodeDecodeError:
+        try:
+            md_content = file_content.decode('latin-1')
+            return f"[Markdown Document]\n\n{md_content}"
+        except:
+            return "[Markdown Document - Error]\n\nError decoding markdown file."
+
+def extract_text_from_jupyter_notebook(file_content):
+    """Extract text from Jupyter notebook files"""
+    try:
+        import json
+        
+        # Decode and parse JSON
+        notebook_content = file_content.decode('utf-8')
+        notebook = json.loads(notebook_content)
+        
+        extracted_parts = ["[Jupyter Notebook]"]
+        
+        # Extract metadata if available
+        if 'metadata' in notebook:
+            metadata = notebook['metadata']
+            if 'kernelspec' in metadata:
+                kernel = metadata['kernelspec'].get('display_name', 'Unknown')
+                extracted_parts.append(f"Kernel: {kernel}")
+        
+        extracted_parts.append("")  # Empty line
+        
+        # Extract cells
+        if 'cells' in notebook:
+            for i, cell in enumerate(notebook['cells']):
+                cell_type = cell.get('cell_type', 'unknown')
+                
+                if cell_type == 'markdown':
+                    extracted_parts.append(f"## Markdown Cell {i+1}")
+                    if 'source' in cell:
+                        source = ''.join(cell['source']) if isinstance(cell['source'], list) else cell['source']
+                        extracted_parts.append(source)
+                
+                elif cell_type == 'code':
+                    extracted_parts.append(f"## Code Cell {i+1}")
+                    if 'source' in cell:
+                        source = ''.join(cell['source']) if isinstance(cell['source'], list) else cell['source']
+                        extracted_parts.append(f"```python\n{source}\n```")
+                    
+                    # Add outputs if available
+                    if 'outputs' in cell and cell['outputs']:
+                        extracted_parts.append("### Output:")
+                        for output in cell['outputs']:
+                            if 'text' in output:
+                                output_text = ''.join(output['text']) if isinstance(output['text'], list) else output['text']
+                                extracted_parts.append(output_text)
+                
+                extracted_parts.append("")  # Empty line between cells
+        
+        return "\n".join(extracted_parts)
+        
+    except Exception as e:
+        return f"[Jupyter Notebook - Error]\n\nError processing notebook: {str(e)}"
+
 def extract_text_from_file(file_content, filename):
-    """Extract text from various file types"""
+    """Extract text from various file types with enhanced format support"""
     file_extension = filename.lower().split('.')[-1] if '.' in filename else ''
     
+    # Image files
     if file_extension in ['jpg', 'jpeg', 'png', 'bmp', 'tiff', 'gif', 'webp']:
         return extract_text_from_image(file_content)
+    
+    # Document files
     elif file_extension == 'pdf':
         return extract_text_from_pdf(file_content)
     elif file_extension in ['docx']:
         return extract_text_from_docx(file_content)
+    
+    # Text files
     elif file_extension in ['txt']:
         try:
             return file_content.decode('utf-8')
@@ -404,6 +587,27 @@ def extract_text_from_file(file_content, filename):
                 return file_content.decode('latin-1')
             except UnicodeDecodeError:
                 return file_content.decode('utf-8', errors='ignore')
+    
+    # Markdown files
+    elif file_extension in ['md', 'markdown']:
+        return extract_text_from_markdown(file_content)
+    
+    # HTML files
+    elif file_extension in ['html', 'htm']:
+        return extract_text_from_html(file_content)
+    
+    # XML files
+    elif file_extension in ['xml']:
+        return extract_text_from_xml(file_content)
+    
+    # Code files
+    elif file_extension in ['py', 'js', 'ts', 'java', 'cpp', 'c', 'sh']:
+        return extract_text_from_code_file(file_content, file_extension)
+    
+    # Jupyter notebooks
+    elif file_extension in ['ipynb']:
+        return extract_text_from_jupyter_notebook(file_content)
+    
     else:
         # Try to detect if it's an image by attempting to open it
         try:
@@ -412,7 +616,17 @@ def extract_text_from_file(file_content, filename):
         except:
             pass
         
-        raise HTTPException(status_code=400, detail=f"Unsupported file type: {file_extension}. Supported formats: images (jpg, png, etc.), PDF, DOCX, TXT")
+        # Try as plain text file
+        try:
+            text_content = file_content.decode('utf-8')
+            return f"[Unknown File Type: {file_extension}]\n\n{text_content}"
+        except:
+            pass
+        
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Unsupported file type: {file_extension}. Supported formats: images (jpg, png, etc.), documents (PDF, DOCX), text files (TXT, MD, HTML, XML), code files (PY, JS, TS, JAVA, CPP, C, SH), and notebooks (IPYNB)"
+        )
 
 def clean_markdown_formatting(text: str) -> str:
     """Remove markdown formatting from text"""
@@ -702,7 +916,20 @@ async def supported_formats():
     """Get list of supported file formats"""
     return {
         "supported_formats": {
-            "images": ["jpg", "jpeg", "png", "bmp", "tiff", "gif"],
-            "documents": ["pdf", "docx", "doc", "txt"]
+            "images": ["jpg", "jpeg", "png", "bmp", "tiff", "gif", "webp"],
+            "documents": ["pdf", "docx", "txt"],
+            "text_files": ["txt", "md", "markdown"],
+            "structured": ["html", "htm", "xml"],
+            "code_files": ["py", "js", "ts", "java", "cpp", "c", "sh"],
+            "notebooks": ["ipynb"]
+        },
+        "total_formats": 20,
+        "categories": {
+            "images": "Image files processed with OCR",
+            "documents": "Document files with direct text extraction",
+            "text_files": "Plain text and markdown files",
+            "structured": "HTML and XML files with structure parsing",
+            "code_files": "Programming language files with syntax awareness",
+            "notebooks": "Jupyter notebooks with cell extraction"
         }
     }
