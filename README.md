@@ -1,6 +1,6 @@
-# 🤖 Smart Document Q&A System
+# 📚 DocuMind AI - Intelligent Document Analysis Platform
 
-A powerful document analysis application that uses AI to extract text from various document formats and answer questions about their content. Built with **Nebius AI Studio**, **Tesseract OCR**, **FastAPI**, and **React**.
+A comprehensive document intelligence platform powered by multiple AI models. Upload any document and get instant insights with advanced question generation, multi-format support, and intelligent model selection. Built with **Nebius AI Studio**, **Tesseract OCR**, **FastAPI**, and **React**.
 
 ![Document Q&A Demo](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.11+-blue)
@@ -9,17 +9,32 @@ A powerful document analysis application that uses AI to extract text from vario
 
 ## ✨ Features
 
-### 📄 Document Processing
-- **Multi-format support**: Images (JPG, PNG, BMP, TIFF, GIF), PDFs, DOCX, TXT
-- **Advanced OCR**: Powered by Tesseract with custom preprocessing
-- **Smart text extraction**: Handles scanned documents, tables, and structured content
-- **PDF intelligence**: Automatic fallback to OCR for scanned PDFs
+### 🤖 **Multi-Model AI Intelligence**
+- **Meta Llama 3.1**: General-purpose analysis and conversation
+- **DeepSeek R1**: Complex reasoning and research analysis  
+- **Qwen3 Coder**: Advanced code analysis and technical documentation
+- **Smart Model Recommendation**: Automatic model selection based on content type
+- **Manual Override**: Users can select any model for any document type
 
-### 🧠 AI-Powered Analysis
-- **Natural language Q&A**: Ask questions about your documents in plain English
-- **Context-aware responses**: Understands document structure and content
-- **Custom system prompts**: Tailor AI behavior for specific use cases
-- **Powered by Nebius AI Studio**: Using Meta-Llama-3.1-70B-Instruct model
+### 📁 **Comprehensive File Support**
+- **Documents**: PDF, DOCX, TXT, MD, HTML, XML
+- **Code Files**: Python, JavaScript, TypeScript, Java, C++, C, Shell, CSS, JSON
+- **Jupyter Notebooks**: Full .ipynb support with enhanced cell extraction
+- **Images**: JPG, PNG, GIF, BMP, TIFF, WebP (with OCR)
+- **Data Files**: CSV, JSON
+
+### 🎯 **Smart Question Generation**
+- **AI-Generated Questions**: Contextually relevant questions based on document content
+- **8 Question Categories**: Factual, Analytical, Summary, Technical, Strategic, Debugging, Optimization, Implementation
+- **Question Management**: Save favorites, view history, bulk operations
+- **Click-to-Use**: One-click question population with collapsible interface
+
+### 📊 **Advanced Features**
+- **Enhanced Text Extraction**: Improved Jupyter notebook processing with comprehensive output analysis
+- **Export Options**: Download answers, extracted text, or complete analysis
+- **Model Comparison**: Compare responses from different AI models
+- **Performance Tracking**: Model usage statistics and intelligent recommendations
+- **Responsive Design**: Optimized layout that scales from mobile to desktop
 
 ### 🎨 Modern Interface
 - **Drag & drop upload**: Intuitive file handling
@@ -84,7 +99,7 @@ A powerful document analysis application that uses AI to extract text from vario
    ```bash
    cd backend
    venv\Scripts\activate  # Windows
-   python -m uvicorn main:app --reload
+   python -m uvicorn main_temp:app --reload --host 0.0.0.0 --port 8000
    ```
    Server will run on `http://localhost:8000`
 
