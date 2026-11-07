@@ -15,9 +15,33 @@ This specification outlines the transformation of the Smart Document Q&A System 
 
 ## CRITICAL PRIORITY (P0) - Foundation Requirements
 
-### Requirement 1: Enhanced File Format Support 🔴
+### Requirement 1: Enhanced File Format Support 🔴This is Done,Ignore this
 
 **User Story:** As a developer/analyst, I want to upload and analyze various code files, structured documents, and technical files, so that I can get insights from my entire codebase and documentation ecosystem.
+
+#### Acceptance Criteria
+
+1. WHEN uploading code files THEN the system SHALL support .py, .js, .ts, .java, .cpp, .c, .sh formats with syntax preservation
+2. WHEN uploading markup files THEN the system SHALL support .html, .xml, .md formats with structure parsing
+3. WHEN uploading data files THEN the system SHALL support .txt, .ipynb (Jupyter notebooks) formats
+4. WHEN processing code files THEN the system SHALL understand programming concepts, functions, classes, and dependencies
+5. WHEN analyzing Jupyter notebooks THEN the system SHALL extract both code cells and markdown content separately
+6. WHEN handling markup files THEN the system SHALL parse DOM structure, tags, and semantic content
+7. WHEN processing any format THEN the system SHALL maintain original formatting and provide syntax-aware analysis
+
+### Requirement 2: Multi-Model AI Integration 🔴This is Done,Ignore this
+
+**User Story:** As a user, I want the system to intelligently select the best AI model for my document type and allow me to choose specific models, so that I get the most accurate and contextually appropriate analysis.
+
+#### Acceptance Criteria
+
+1. WHEN processing code files THEN the system SHALL recommend Qwen3-Coder (Qwen/Qwen3-235B-A22B) for optimal code analysis
+2. WHEN processing complex reasoning tasks THEN the system SHALL recommend DeepSeek-R1 (deepseek-ai/DeepSeek-R1-0528) for analytical documents
+3. WHEN processing general documents THEN the system SHALL use Meta-Llama (meta-llama/Meta-Llama-3.1-70B-Instruct) as default
+4. WHEN displaying model options THEN the system SHALL show model capabilities, strengths, and use case recommendations
+5. WHEN a user manually selects a model THEN the system SHALL use that model and remember the preference
+6. WHEN a model fails or is unavailable THEN the system SHALL gracefully fallback to the next best alternative
+7. WHEN switching models THEN the system SHALL maintain document context and allow re-processing with different models
 
 #### Acceptance Criteria
 
@@ -31,7 +55,7 @@ This specification outlines the transformation of the Smart Document Q&A System 
 
 **Business Value:** Expands platform utility to developers and technical teams, making it a comprehensive code analysis tool.
 
-### Requirement 2: Multi-Model AI Support with Smart Recommendations 🔴
+### Requirement 2: Multi-Model AI Support with Smart Recommendations 🔴This is Done,Ignore this
 
 **User Story:** As a user, I want to choose from different AI models and get intelligent recommendations, so that I can get optimal insights based on each model's specialized strengths.
 
@@ -41,14 +65,14 @@ This specification outlines the transformation of the Smart Document Q&A System 
 2. WHEN uploading code files THEN the system SHALL automatically recommend Qwen3-Coder
 3. WHEN processing analytical/reasoning documents THEN the system SHALL recommend DeepSeek-R1
 4. WHEN handling general documents THEN the system SHALL recommend Meta-Llama as default
-5. WHEN models are used THEN the system SHALL track performance metrics (accuracy, speed, user satisfaction)
+5. WHEN models are used THEN the system SHALL track performance metrics (accuracy, speed, user satisfaction)    
 6. WHEN recommending models THEN the system SHALL consider document type, user history, and past performance
 7. WHEN switching models THEN the API interface SHALL remain consistent
 8. WHEN processing requests THEN the system SHALL route to the selected model seamlessly
 
 **Business Value:** Provides specialized AI capabilities for different use cases, improving analysis quality and user satisfaction.
 
-### Requirement 3: Database & Persistence Foundation 🔴
+### Requirement 3: Database & Persistence Foundation 
 
 **User Story:** As a user, I want my documents and analysis results to be saved automatically with proper organization, so that I can build a searchable knowledge base over time.
 

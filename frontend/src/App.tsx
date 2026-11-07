@@ -165,12 +165,21 @@ function App() {
   const [showQuestionManager, setShowQuestionManager] = useState(false);
   const [isQuestionSectionCollapsed, setIsQuestionSectionCollapsed] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
+    // Initialize theme from localStorage
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    
+    setIsDarkMode(shouldUseDark);
+    document.documentElement.setAttribute('data-theme', shouldUseDark ? 'dark' : 'light');
+    
     // Fetch supported formats and available models on component mount
     Promise.all([
-      fetch("http://localhost:8000/supported-formats").then(res => res.json()),
-      fetch("http://localhost:8000/models").then(res => res.json())
+      fetch("/supported-formats").then(res => res.json()),
+      fetch("/models").then(res => res.json())
     ])
       .then(([formatsData, modelsData]) => {
         setSupportedFormats(formatsData);
@@ -179,6 +188,15 @@ function App() {
       })
       .catch(err => console.error("Failed to fetch initial data:", err));
   }, []);
+
+  // Theme toggle function
+  const toggleTheme = () => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    const themeValue = newTheme ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', themeValue);
+    localStorage.setItem('theme', themeValue);
+  };
 
   // Track if user has manually selected a model
   const [userHasManuallySelectedModel, setUserHasManuallySelectedModel] = useState(false);
@@ -190,7 +208,7 @@ function App() {
       const formData = new FormData();
       formData.append("file", file);
       
-      fetch("http://localhost:8000/recommend-model", {
+      fetch("/recommend-model", {
         method: "POST",
         body: formData,
       })
@@ -223,7 +241,7 @@ function App() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8000/ask", {
+      const res = await fetch("/ask", {
         method: "POST",
         body: formData,
       });
@@ -266,18 +284,18 @@ function App() {
   };
 
   const getAcceptedFileTypes = () => {
-    if (!supportedFormats) return "*";
+    if (!supportedFormats || !supportedFormats.supported_formats) return "*";
     const { images, documents, code_files, notebooks, data_files } = supportedFormats.supported_formats;
     
     const allFormats = [
-      ...images.map(ext => `.${ext}`),
-      ...documents.map(ext => `.${ext}`),
-      ...code_files.map(ext => `.${ext}`),
-      ...notebooks.map(ext => `.${ext}`),
-      ...data_files.map(ext => `.${ext}`)
+      ...(images || []).map(ext => `.${ext}`),
+      ...(documents || []).map(ext => `.${ext}`),
+      ...(code_files || []).map(ext => `.${ext}`),
+      ...(notebooks || []).map(ext => `.${ext}`),
+      ...(data_files || []).map(ext => `.${ext}`)
     ];
     
-    return allFormats.join(",");
+    return allFormats.length > 0 ? allFormats.join(",") : "*";
   };
 
   const formatFileSize = (bytes: number) => {
@@ -296,7 +314,7 @@ function App() {
       formData.append("file", file);
       formData.append("question", question);
       formData.append("models", Object.keys(availableModels).slice(0, 3).join(","));
-      const res = await fetch("http://localhost:8000/compare-models", {
+      const res = await fetch("/compare-models", {
         method: "POST",
         body: formData,
       });
@@ -634,7 +652,7 @@ For documents, this is the direct text content extraction.
       formData.append("max_questions", "8");
       formData.append("document_category", "general");
       
-      const response = await fetch("http://localhost:8000/generate-questions", {
+      const response = await fetch("/generate-questions", {
         method: "POST",
         body: formData,
       });
@@ -784,6 +802,34 @@ For documents, this is the direct text content extraction.
 
   return (
     <div className="app-container">
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle" 
+        onClick={toggleTheme}
+        title={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+        aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+      >
+        {isDarkMode ? '☀️' : '🌙'}
+      </button>
+
+      {/* Documentation Link */}
+      <a 
+        href="docs/homepage.html" 
+        className="docs-link"
+        title="View documentation homepage"
+        aria-label="View documentation homepage"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => {
+          e.preventDefault();
+          // Pass current theme to the docs page
+          const currentTheme = isDarkMode ? 'dark' : 'light';
+          window.open(`docs/homepage.html?theme=${currentTheme}`, '_blank');
+        }}
+      >
+        📖
+      </a>
+
       <div className="header">
         <h1>📚 DocuMind AI</h1>
         <p>Intelligent document analysis with multi-model AI • Upload any file and get instant insights</p>
@@ -952,6 +998,8 @@ For documents, this is the direct text content extraction.
                   <button 
                     className="manager-toggle"
                     onClick={() => setShowQuestionManager(!showQuestionManager)}
+                    title={showQuestionManager ? "Hide question manager" : "Show question manager"}
+                    aria-label={showQuestionManager ? "Hide question manager" : "Show question manager"}
                   >
                     {showQuestionManager ? '📋' : '⚙️'}
                   </button>
@@ -960,6 +1008,8 @@ For documents, this is the direct text content extraction.
                       className="regenerate-button"
                       onClick={() => generateQuestionsFromFile(file)}
                       disabled={loadingQuestions}
+                      title="Regenerate smart questions for this document"
+                      aria-label="Regenerate smart questions for this document"
                     >
                       🔄
                     </button>

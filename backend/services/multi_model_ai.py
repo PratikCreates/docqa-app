@@ -5,16 +5,26 @@ import time
 import re
 from typing import Dict, Optional, List
 from openai import OpenAI
+from dotenv import load_dotenv
 from services.model_selector import ModelSelector
 from models.ai_models import get_model_config
+
+# Ensure environment variables are loaded
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 class MultiModelAIService:
     """Service for handling multiple AI models with intelligent selection and fallback"""
     
     def __init__(self):
+        api_key = os.environ.get("NEBIUS_API_KEY")
+        if not api_key:
+            print("[WARNING] NEBIUS_API_KEY not found in environment variables")
+        else:
+            print(f"[API] API key loaded (length: {len(api_key)})")
+        
         self.client = OpenAI(
             base_url="https://api.studio.nebius.com/v1/",
-            api_key=os.environ.get("NEBIUS_API_KEY")
+            api_key=api_key
         )
         self.model_selector = ModelSelector()
     
@@ -195,7 +205,7 @@ REMEMBER: 4 spaces for function body, 8 spaces for nested blocks!"""
             
             # Add truncation warning if needed
             if was_truncated:
-                cleaned_content += "\n\n⚠️ Note: Response was truncated due to length limits. Consider breaking down complex requests into smaller parts for complete answers."
+                cleaned_content += "\n\n[NOTE] Response was truncated due to length limits. Consider breaking down complex requests into smaller parts for complete answers."
             
             return {
                 "answer": cleaned_content,

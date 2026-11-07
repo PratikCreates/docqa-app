@@ -126,3 +126,124 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# ===== DEVELOPMENT & TESTING FILES =====
+# These files are for development only and should not be in the client repository
+
+# Test files and scripts
+test_*.py
+test_*.html
+test_*.js
+*_test.py
+*_test.js
+*_test.ts
+debug_*.py
+debug_*.html
+fix_*.py
+demo_*.py
+setup_*.py
+
+# Specific test files to exclude
+test_question_templates.py
+test_frontend_file_accept.html
+test_file_upload_formats.py
+test_question_management.py
+test_template_fix.py
+test_advanced_search.py
+test_simple_request.py
+test_question_service.py
+test_question_generation.py
+test_smart_recommendations.py
+test_database_features.py
+test_specific_formats.py
+test_complete_ux.py
+test_token_limits.py
+test_qwen_thinking.py
+test_ask_endpoint.py
+debug_thinking_tags.py
+test_deepseek_thinking.py
+test_api_connection.py
+test_backend_quick.py
+test_final_integration.py
+test_multi_model.py
+test_enhanced_formats.py
+test_question_api.py
+test_frontend_models.html
+test_model_availability.py
+test_layout_improvements.html
+test_multi_format_support.py
+
+# Development artifacts
+fix_numpy_issue.py
+fix_dependencies.py
+fix_copy_functionality.md
+simple_copy_fix.js
+copy_test_instructions.md
+debug_copy_issue.html
+test_copy_functionality.html
+
+# Temporary and development files
+*_temp.py
+temp_*.py
+temp_*.html
+temp_*.js
+*.tmp
+*.temp
+
+# Development summaries and task files (keep local only)
+TASK_*.md
+*_COMPLETION_SUMMARY.md
+SESSION_SUMMARY_*.md
+OCR_IMPLEMENTATION_SUMMARY.md
+
+# Development scripts
+start-backend.bat
+start-backend.sh
+start-frontend.bat
+start-frontend.sh
+start_services.py
+test-project.py
+
+# Kiro IDE specific files (development specs)
+.kiro/
+
+# Development documentation (keep local)
+github-setup.md
+PROJECT_STRUCTURE.md
+
+# Backup and old files
+*.bak
+*.old
+*_backup.*
+*_old.*
+
+# Development databases and cache
+*.db
+*.sqlite
+*.sqlite3
+cache/
+.cache/
+
+# Development logs
+debug.log
+error.log
+access.log
+*.log.*
+
+# IDE and editor files
+.vscode/settings.json
+.idea/
+*.sublime-*
+*.code-workspace
+
+# Development certificates and keys (security)
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Development configuration
+config_dev.py
+config_test.py
+local_config.py

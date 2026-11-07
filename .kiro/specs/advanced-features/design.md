@@ -76,6 +76,83 @@ This design document outlines the architecture and implementation approach for t
 
 ## Components and Interfaces
 
+### 0. Enhanced File Parser Component
+
+```python
+class EnhancedFileParser:
+    def parse_code_file(self, file_content: bytes, file_extension: str) -> CodeDocument:
+        """Parse code files with syntax highlighting and structure extraction"""
+        
+    def parse_jupyter_notebook(self, notebook_content: bytes) -> JupyterDocument:
+        """Extract code cells, markdown cells, and outputs from Jupyter notebooks"""
+        
+    def parse_markup_file(self, content: bytes, file_type: str) -> MarkupDocument:
+        """Parse HTML, XML, Markdown with structure preservation"""
+        
+    def extract_code_metadata(self, code_content: str, language: str) -> CodeMetadata:
+        """Extract functions, classes, imports, and dependencies from code"""
+
+class CodeDocument(BaseModel):
+    language: str
+    functions: List[FunctionInfo]
+    classes: List[ClassInfo]
+    imports: List[str]
+    comments: List[CommentInfo]
+    complexity_score: float
+    
+class JupyterDocument(BaseModel):
+    code_cells: List[CodeCell]
+    markdown_cells: List[MarkdownCell]
+    outputs: List[CellOutput]
+    kernel_info: KernelInfo
+```
+
+### 0.1. Multi-Model AI Service
+
+```python
+class ModelSelector:
+    def recommend_model(self, document_type: str, content_analysis: ContentAnalysis) -> ModelRecommendation:
+        """Intelligently recommend the best model for document type"""
+        
+    def get_available_models(self) -> List[AIModel]:
+        """Get list of available AI models with capabilities"""
+        
+    def fallback_model_chain(self, primary_model: str) -> List[str]:
+        """Define fallback chain for model failures"""
+
+class MultiModelAIService:
+    def process_with_model(self, content: str, question: str, model: str, system_prompt: str) -> AIResponse:
+        """Process content using specified AI model"""
+        
+    def get_model_capabilities(self, model_name: str) -> ModelCapabilities:
+        """Get specific model capabilities and use cases"""
+        
+    def compare_model_responses(self, content: str, question: str, models: List[str]) -> ModelComparison:
+        """Compare responses from multiple models for the same query"""
+
+# Model configurations
+AVAILABLE_MODELS = {
+    "meta-llama/Meta-Llama-3.1-70B-Instruct": {
+        "name": "Meta Llama 3.1",
+        "strengths": ["General purpose", "Conversational", "Balanced reasoning"],
+        "best_for": ["General documents", "Q&A", "Summarization"],
+        "max_tokens": 4096
+    },
+    "deepseek-ai/DeepSeek-R1-0528": {
+        "name": "DeepSeek R1",
+        "strengths": ["Complex reasoning", "Mathematical analysis", "Research papers"],
+        "best_for": ["Academic papers", "Technical analysis", "Complex reasoning"],
+        "max_tokens": 8192
+    },
+    "Qwen/Qwen3-235B-A22B": {
+        "name": "Qwen3 Coder",
+        "strengths": ["Code analysis", "Programming concepts", "Technical documentation"],
+        "best_for": ["Code files", "API docs", "Technical specifications"],
+        "max_tokens": 32768
+    }
+}
+```
+
 ### 1. Auto-Generate Questions Component
 
 ```python

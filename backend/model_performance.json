@@ -1,0 +1,419 @@
+{
+  "model_metrics": {
+    "meta-llama/Meta-Llama-3.1-70B-Instruct": {
+      "total_uses": 26,
+      "successes": 26,
+      "failures": 0,
+      "total_time": 231.06137371063232,
+      "file_types": {
+        "pdf": {
+          "uses": 10,
+          "successes": 10,
+          "avg_time": 17.32571382522583
+        },
+        "ipynb": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 3.0054025650024414
+        },
+        "txt": {
+          "uses": 14,
+          "successes": 14,
+          "avg_time": 3.1028938634055003
+        },
+        "unknown": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 11.35831880569458
+        }
+      },
+      "recent_performance": [
+        {
+          "timestamp": "2025-08-01T15:22:07.959602",
+          "file_type": "pdf",
+          "processing_time": 8.825558185577393,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-01T23:38:38.324611",
+          "file_type": "pdf",
+          "processing_time": 36.08936166763306,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-02T00:07:08.950247",
+          "file_type": "pdf",
+          "processing_time": 7.335439443588257,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-02T00:14:26.755815",
+          "file_type": "pdf",
+          "processing_time": 24.17778754234314,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-02T14:15:02.864819",
+          "file_type": "pdf",
+          "processing_time": 24.141639471054077,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:36:49.302087",
+          "file_type": "pdf",
+          "processing_time": 6.560487985610962,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T06:36:03.484041",
+          "file_type": "ipynb",
+          "processing_time": 3.0054025650024414,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T23:43:37.690884",
+          "file_type": "txt",
+          "processing_time": 2.9992363452911377,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-05T00:28:43.864364",
+          "file_type": "pdf",
+          "processing_time": 8.94950008392334,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-05T00:29:42.854140",
+          "file_type": "pdf",
+          "processing_time": 14.941978454589844,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T07:37:41.108147",
+          "file_type": "txt",
+          "processing_time": 4.774404764175415,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:05:54.510319",
+          "file_type": "txt",
+          "processing_time": 3.7477455139160156,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:05:57.214634",
+          "file_type": "txt",
+          "processing_time": 2.265460729598999,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:07:36.337839",
+          "file_type": "txt",
+          "processing_time": 3.375544548034668,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:07:41.355357",
+          "file_type": "txt",
+          "processing_time": 1.6216607093811035,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:07:47.347563",
+          "file_type": "txt",
+          "processing_time": 2.611607551574707,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:07:54.941734",
+          "file_type": "txt",
+          "processing_time": 4.197132110595703,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:11:58.594124",
+          "file_type": "txt",
+          "processing_time": 3.882725477218628,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:12:04.068430",
+          "file_type": "txt",
+          "processing_time": 1.9985010623931885,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:12:12.901731",
+          "file_type": "txt",
+          "processing_time": 5.3723626136779785,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:12:18.266489",
+          "file_type": "txt",
+          "processing_time": 1.7874343395233154,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-07T11:30:34.032006",
+          "file_type": "pdf",
+          "processing_time": 28.794200658798218,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-08T07:00:51.456697",
+          "file_type": "txt",
+          "processing_time": 1.461763620376587,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-08T07:36:15.903165",
+          "file_type": "txt",
+          "processing_time": 3.3449347019195557,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-08T15:14:27.162655",
+          "file_type": "unknown",
+          "processing_time": 11.35831880569458,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-08T15:14:50.675499",
+          "file_type": "pdf",
+          "processing_time": 13.441184759140015,
+          "success": true,
+          "user_satisfaction": null
+        }
+      ]
+    },
+    "deepseek-ai/DeepSeek-R1-0528": {
+      "total_uses": 3,
+      "successes": 3,
+      "failures": 0,
+      "total_time": 258.3858587741852,
+      "file_types": {
+        "pdf": {
+          "uses": 2,
+          "successes": 2,
+          "avg_time": 64.72555220127106
+        },
+        "ipynb": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 128.93475437164307
+        }
+      },
+      "recent_performance": [
+        {
+          "timestamp": "2025-08-01T15:24:31.544979",
+          "file_type": "pdf",
+          "processing_time": 72.61914896965027,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-01T22:52:14.232590",
+          "file_type": "pdf",
+          "processing_time": 56.831955432891846,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T06:34:43.129096",
+          "file_type": "ipynb",
+          "processing_time": 128.93475437164307,
+          "success": true,
+          "user_satisfaction": null
+        }
+      ]
+    },
+    "Qwen/Qwen3-235B-A22B-Instruct-2507": {
+      "total_uses": 13,
+      "successes": 13,
+      "failures": 0,
+      "total_time": 151.23638820648193,
+      "file_types": {
+        "ipynb": {
+          "uses": 4,
+          "successes": 4,
+          "avg_time": 22.363940119743347
+        },
+        "py": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 2.7890567779541016
+        },
+        "js": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 2.8216981887817383
+        },
+        "ts": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 3.0621745586395264
+        },
+        "java": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 2.1762380599975586
+        },
+        "cpp": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 2.7589197158813477
+        },
+        "c": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 2.7835614681243896
+        },
+        "sh": {
+          "uses": 1,
+          "successes": 1,
+          "avg_time": 3.2967100143432617
+        },
+        "unknown": {
+          "uses": 2,
+          "successes": 2,
+          "avg_time": 21.04613447189331
+        }
+      },
+      "recent_performance": [
+        {
+          "timestamp": "2025-08-04T05:58:43.951404",
+          "file_type": "ipynb",
+          "processing_time": 17.348989248275757,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:58:50.911144",
+          "file_type": "py",
+          "processing_time": 2.7890567779541016,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:58:55.859335",
+          "file_type": "js",
+          "processing_time": 2.8216981887817383,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:59:01.021493",
+          "file_type": "ts",
+          "processing_time": 3.0621745586395264,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:59:05.291092",
+          "file_type": "java",
+          "processing_time": 2.1762380599975586,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:59:10.129293",
+          "file_type": "cpp",
+          "processing_time": 2.7589197158813477,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:59:14.984863",
+          "file_type": "c",
+          "processing_time": 2.7835614681243896,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:59:20.346689",
+          "file_type": "sh",
+          "processing_time": 3.2967100143432617,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T05:59:26.949561",
+          "file_type": "ipynb",
+          "processing_time": 4.506578207015991,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T06:27:48.371116",
+          "file_type": "ipynb",
+          "processing_time": 30.248042106628418,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-04T06:29:57.938389",
+          "file_type": "ipynb",
+          "processing_time": 37.35215091705322,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-08T11:38:58.474935",
+          "file_type": "unknown",
+          "processing_time": 11.637868881225586,
+          "success": true,
+          "user_satisfaction": null
+        },
+        {
+          "timestamp": "2025-08-08T16:20:18.327111",
+          "file_type": "unknown",
+          "processing_time": 30.454400062561035,
+          "success": true,
+          "user_satisfaction": null
+        }
+      ]
+    }
+  },
+  "usage_stats": {
+    "meta-llama/Meta-Llama-3.1-70B-Instruct": 26,
+    "deepseek-ai/DeepSeek-R1-0528": 3,
+    "Qwen/Qwen3-235B-A22B-Instruct-2507": 13
+  },
+  "success_rates": {
+    "meta-llama/Meta-Llama-3.1-70B-Instruct": 1.0,
+    "deepseek-ai/DeepSeek-R1-0528": 1.0,
+    "Qwen/Qwen3-235B-A22B-Instruct-2507": 1.0
+  },
+  "avg_response_times": {
+    "meta-llama/Meta-Llama-3.1-70B-Instruct": 8.886975911947397,
+    "deepseek-ai/DeepSeek-R1-0528": 86.12861959139506,
+    "Qwen/Qwen3-235B-A22B-Instruct-2507": 11.633568323575533
+  },
+  "user_satisfaction": {}
+}

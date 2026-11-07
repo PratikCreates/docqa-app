@@ -307,10 +307,10 @@ class QuestionGeneratorService:
             prompt = self._create_question_prompt(content, content_analysis, max_questions)
             
             # Get AI response
-            response = await self.ai_service.process_with_model(
+            response = self.ai_service.process_with_model(
                 content=content,
                 question=prompt,
-                model_id=model_id
+                model=model_id
             )
             
             # Parse AI response to extract questions

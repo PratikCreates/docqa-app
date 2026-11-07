@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuMind AI - Intelligent Document Analysis Platform</title>
+    <meta name="description"
+        content="AI-powered document intelligence platform. Upload any file and get instant insights through natural language conversations with advanced AI models.">
+    <meta name="keywords" content="AI, document analysis, machine learning, OCR, document intelligence, file analysis">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.svg">
+
+    <style></style>
+    /* CSS Variables for Theme Support */
+    :root {
+    /* Light Theme Colors */
+    --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f8f9fa;
+    --bg-quaternary: #e9ecef;
+
+    --text-primary: #333333;
+    --text-secondary: #6c757d;
+    --text-tertiary: #495057;
+    --text-inverse: #ffffff;
+
+    --border-primary: #e1e5e9;
+    --border-secondary: #dee2e6;
+    --border-hover: #667eea;
+
+    --accent-primary: #667eea;
+    --accent-secondary: #764ba2;
+    --accent-success: #28a745;
+    --accent-warning: #ffc107;
+    --accent-danger: #dc3545;
+    --accent-info: #17a2b8;
+
+    --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dark Theme Colors - HIGH CONTRAST */
+    [data-theme="dark"] {
+    --bg-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    --bg-secondary: #0f0f0f;
+    --bg-tertiary: #1a1a1a;
+    --bg-quaternary: #2a2a2a;
+
+    --text-primary: #f8f9fa;
+    --text-secondary: #e9ecef;
+    --text-tertiary: #dee2e6;
+    --text-inverse: #000000;
+
+    --border-primary: #495057;
+    --border-secondary: #6c757d;
+    --border-hover: #6f42c1;
+
+    --accent-primary: #6f42c1;
+    --accent-secondary: #e83e8c;
+    --accent-success: #20c997;
+    --accent-warning: #ffc107;
+    --accent-danger: #dc3545;
+    --accent-info: #0dcaf0;
+
+    --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.6);
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.8);
+    --shadow-heavy: 0 10px 30px rgba(0, 0, 0, 0.9);
+    }
+
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        transition: all 0.3s ease;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+    }
+
+    .theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-primary);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-medium);
+    z-index: 1000;
+    }
+
+    .theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-heavy);
+    border-color: var(--accent-primary);
+    }
+
+    /* Back to App Link */
+    .back-to-app {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-primary);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-medium);
+    z-index: 1000;
+    text-decoration: none;
+    color: var(--text-primary);
+    }
+
+    .back-to-app:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-heavy);
+    border-color: var(--accent-success);
+    color: var(--accent-success);
+    }
+
+    .back-to-app:active {
+    transform: scale(0.95);
+    }
+
+    .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 120px 0 100px;
+        color: var(--text-inverse);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+        font-weight: 900;
+        margin-bottom: 24px;
+        text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        letter-spacing: -2px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero p {
+        font-size: 1.4rem;
+        margin-bottom: 48px;
+        opacity: 0.95;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        font-weight: 400;
+        line-height: 1.5;
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 18px 36px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 2px solid transparent;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        color: var(--text-inverse);
+        border: 2px solid transparent;
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .btn-primary:hover::before {
+        left: 100%;
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-inverse);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.6);
+        box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+    }
+
+    .main-content {
+        background: var(--bg-secondary);
+        border-radius: 32px 32px 0 0;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .main-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+        opacity: 0.5;
+    }
+
+    .section {
+    padding: 80px 0;
+    }
+
+    .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+    }
+
+    .section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    }
+
+    .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    }
+
+    .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+    }
+
+    .feature-card {
+    background: var(--bg-tertiary);
+    padding: 40px 30px;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-primary);
+    }
+
+    .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-heavy);
+    border-color: var(--accent-primary);
+    }
+
+    .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+    }
+
+    .feature-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    }
+
+    .feature-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    }
+
+    .stats-section {
+    background: var(--bg-tertiary);
+    padding: 60px 0;
+    }
+
+    .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    text-align: center;
+    }
+
+    .stat-item h3 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    margin-bottom: 10px;
+    }
+
+    .stat-item p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    }
+
+    .demo-section {
+    background: var(--bg-quaternary);
+    padding: 80px 0;
+    }
+
+    .demo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    }
+
+    .demo-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    }
+
+    .demo-content p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    }
+
+    .demo-features {
+    list-style: none;
+    }
+
+    .demo-features li {
+    padding: 10px 0;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    }
+
+    .demo-features li::before {
+    content: "✅";
+    font-size: 1.2rem;
+    }
+
+    .demo-image {
+    background: var(--bg-secondary);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+    .api-section {
+    padding: 80px 0;
+    }
+
+    .code-block {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    overflow-x: auto;
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    }
+
+    .footer {
+    background: var(--bg-tertiary);
+    padding: 60px 0 40px;
+    text-align: center;
+    border-top: 1px solid var(--border-primary);
+    }
+
+    .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+    text-align: left;
+    }
+
+    .footer-section h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    }
+
+    .footer-section ul {
+    list-style: none;
+    }
+
+    .footer-section ul li {
+    margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    }
+
+    .footer-section ul li a:hover {
+    color: var(--accent-primary);
+    }
+
+    .footer-bottom {
+    border-top: 1px solid var(--border-primary);
+    padding-top: 30px;
+    color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+    .hero h1 {
+    font-size: 2.5rem;
+    }
+
+    .hero p {
+    font-size: 1.1rem;
+    }
+
+    .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    }
+
+    .demo-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    }
+
+    .section {
+    padding: 60px 0;
+    }
+    }
+    </style>
+</head>
+
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+        🌙
+    </button>
+
+    <!-- Back to App Link -->
+    <a href="javascript:void(0)" class="back-to-app" title="Back to DocuMind AI App" aria-label="Back to DocuMind AI App" onclick="goBackToApp()"></a>
+        🏠
+    </a>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>📚 DocuMind AI</h1>
+            <p>Intelligent document analysis with multi-model AI. Upload any file and get instant insights through
+                natural language conversations.</p>
+            <div class="cta-buttons">
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="launchApp()">
+                    🚀 Launch App
+                </a>
+                <a href="http://localhost:8000/docs" class="btn btn-secondary" target="_blank"></a>
+                    📖 API Docs
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-content">
+        <!-- Features Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>🌟 Powerful Features</h2>
+                    <p>Everything you need for intelligent document analysis and AI-powered insights</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🤖</span>
+                        <h3>Multi-Model AI</h3>
+                        <p>Choose from Meta-Llama-3.1, DeepSeek-R1, and Qwen3-Coder models. Smart recommendations based
+                            on your content type.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">📄</span>
+                        <h3>Universal File Support</h3>
+                        <p>PDF, DOCX, images, code files, Jupyter notebooks, and more. OCR support for image-based
+                            documents.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🎯</span>
+                        <h3>Smart Questions</h3>
+                        <p>AI-generated questions based on your document content. Categorized by type: factual,
+                            analytical, summary, technical.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🔍</span>
+                        <h3>Advanced Search</h3>
+                        <p>Full-text search across documents, document comparison, and cross-document analysis with
+                            Elasticsearch.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🌙</span>
+                        <h3>Modern Interface</h3>
+                        <p>High-contrast dark mode, responsive design, and smooth animations. Works on desktop, tablet,
+                            and mobile.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🚀</span>
+                        <h3>Enterprise Ready</h3>
+                        <p>REST API, webhooks, cloud storage integration, email processing, and built-in authentication.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>15+</h3>
+                        <p>File Formats Supported</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>3</h3>
+                        <p>AI Models Available</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>50MB</h3>
+                        <p>Max File Size</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>100%</h3>
+                        <p>Local Processing</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Section -->
+        <section class="demo-section">
+            <div class="container">
+                <div class="demo-grid">
+                    <div class="demo-content">
+                        <h3>🎯 How It Works</h3>
+                        <p>Get started with DocuMind AI in three simple steps. Our intelligent platform handles the
+                            complexity while you focus on insights.</p>
+                        <ul class="demo-features">
+                            <li>Upload any document or image file</li>
+                            <li>Choose from AI-generated smart questions</li>
+                            <li>Get instant analysis and insights</li>
+                            <li>Export results in multiple formats</li>
+                            <li>Search and compare across documents</li>
+                        </ul>
+                        <a href="http://localhost:3000" class="btn btn-primary">Try It Now</a>
+                    </div>
+                    <div class="demo-image">
+                        📊 Interactive Demo<br>
+                        <small>Upload a document to see the magic happen!</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Section -->
+        <section class="api-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>🛠️ Developer API</h2>
+                    <p>Integrate DocuMind AI into your applications with our comprehensive REST API</p>
+                </div>
+
+                <div class="code-block">
+                    # Upload and analyze a document
+                    curl -X POST "http://localhost:8000/ask" \
+                    -H "Authorization: Bearer your-api-key" \
+                    -F "file=@document.pdf" \
+                    -F "question=What is this document about?" \
+                    -F "model=meta-llama-3.1"
+                </div>
+
+                <div class="code-block">
+                    # Generate smart questions
+                    curl -X POST "http://localhost:8000/generate-questions" \
+                    -H "Authorization: Bearer your-api-key" \
+                    -F "file=@document.pdf" \
+                    -F "max_questions=5"
+                </div>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="http://localhost:8000/docs" class="btn btn-primary">
+                        📖 Full API Documentation
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>🚀 Quick Start</h4>
+                        <ul>
+                            <li><a href="http://localhost:3000">React Frontend</a></li>
+                            <li><a href="simple_frontend.html">Simple HTML Interface</a></li>
+                            <li><a href="http://localhost:8000/docs">API Documentation</a></li>
+                            <li><a href="http://localhost:8000/health">System Status</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>📚 Documentation</h4>
+                        <ul>
+                            <li><a href="#features">Features Guide</a></li>
+                            <li><a href="#api">API Reference</a></li>
+                            <li><a href="README.md">Installation Guide</a></li>
+                            <li><a href="docs/FEATURES.md">Advanced Features</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>🤖 AI Models</h4>
+                        <ul>
+                            <li><a href="#models">Meta-Llama-3.1-70B</a></li>
+                            <li><a href="#models">DeepSeek-R1</a></li>
+                            <li><a href="#models">Qwen3-Coder</a></li>
+                            <li><a href="#models">Model Comparison</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>🔧 Support</h4>
+                        <ul>
+                            <li><a href="https://github.com/PratikCreates/docqa-app">GitHub Repository</a></li>
+                            <li><a href="https://github.com/PratikCreates/docqa-app/issues">Report Issues</a></li>
+                            <li><a href="https://github.com/PratikCreates/docqa-app/discussions">Discussions</a></li>
+                            <li><a href="mailto:pratik@example.com">Contact Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2024 DocuMind AI. Built with ❤️ by <a href="https://github.com/PratikCreates"
+                            style="color: var(--accent-primary);">PratikCreates</a></p>
+                    <p>Open source under MIT License • All AI processing runs locally • Your data stays private</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let isDarkMode = false;
+
+        function initializeTheme() {
+            // Check URL parameters first
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlTheme = urlParams.get('theme');
+            
+            let shouldUseDark;
+            if (urlTheme) {
+                // Use theme from URL parameter (passed from main app)
+                shouldUseDark = urlTheme === 'dark';
+            } else {
+                // Fall back to saved theme or system preference
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            }
+
+            isDarkMode = shouldUseDark;
+            document.documentElement.setAttribute('data-theme', shouldUseDark ? 'dark' : 'light');
+            updateThemeButton();
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const themeValue = isDarkMode ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', themeValue);
+            localStorage.setItem('theme', themeValue);
+            updateThemeButton();
+        }
+
+        function updateThemeButton() {
+            const button = document.querySelector('.theme-toggle');
+            if (button) {
+                button.textContent = isDarkMode ? '☀️' : '🌙';
+                button.title = `Switch to ${isDarkMode ? 'light' : 'dark'} mode`;
+                button.setAttribute('aria-label', `Switch to ${isDarkMode ? 'light' : 'dark'} mode`);
+            }
+        }
+
+        // Launch app function
+        function launchApp() {
+            // Try React frontend first
+            fetch('http://localhost:3000')
+                .then(response => {
+                    if (response.ok) {
+                        window.open('http://localhost:3000', '_blank');
+                    } else {
+                        // Fall back to simple frontend
+                        window.open('../simple_frontend.html', '_blank');
+                    }
+                })
+                .catch(() => {
+                    // If React is not available, open simple frontend
+                    window.open('../simple_frontend.html', '_blank');
+                });
+        }
+
+        // Go back to app function
+        function goBackToApp() {
+            // Try to go back to the previous page first
+            if (document.referrer && (document.referrer.includes('localhost:3000') || document.referrer.includes('simple_frontend.html'))) {
+                window.history.back();
+            } else {
+                // If no referrer or not from our app, try React frontend first
+                fetch('http://localhost:3000')
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = 'http://localhost:3000';
+                        } else {
+                            // Fall back to simple frontend
+                            window.location.href = '../simple_frontend.html';
+                        }
+                    })
+                    .catch(() => {
+                        // If React is not available, go to simple frontend
+                        window.location.href = '../simple_frontend.html';
+                    });
+            }
+        }
+
+        // Initialize theme on load
+        initializeTheme();
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

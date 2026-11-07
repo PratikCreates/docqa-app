@@ -39,7 +39,7 @@ class Document(Base):
     content_type = Column(String(100), nullable=False)
     file_size = Column(BIGINT, nullable=False)
     extracted_text = Column(Text)
-    metadata = Column(JSONB, default={})
+    doc_metadata = Column(JSONB, default={})
     document_category = Column(String(50))  # code, documentation, research, etc.
     file_path = Column(String(500))  # Path to stored file
     processing_status = Column(String(50), default="pending")  # pending, processing, completed, failed
@@ -92,7 +92,7 @@ class ProcessingHistory(Base):
     ai_model_used = Column(String(100))
     confidence_score = Column(Float)
     processing_time_ms = Column(Integer)
-    metadata = Column(JSONB, default={})
+    processing_metadata = Column(JSONB, default={})
     created_at = Column(DateTime, default=datetime.utcnow)
     
     # Relationships
@@ -111,11 +111,11 @@ class ModelPerformance(Base):
     avg_confidence_score = Column(Float)
     last_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-# Database configuration
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/document_intelligence")
+# Database configuration - PostgreSQL only
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://docuuser:docupass123@localhost:5432/document_intelligence")
 
-# Create engine and session
-engine = create_engine(DATABASE_URL, echo=True)
+# Create engine and session - PostgreSQL configuration
+engine = create_engine(DATABASE_URL, echo=True, pool_pre_ping=True, pool_recycle=300)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_db():
